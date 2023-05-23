@@ -155,6 +155,7 @@ def show_post(post_id):
         )
         db.session.add(new_comment)
         db.session.commit()
+        redirect("get_all_posts")
     return render_template("post.html",
                            post=requested_post, current_user=current_user, form=comment_form, all_comments=comments)
 
