@@ -38,7 +38,7 @@ def admin_only(f):
 
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL") #'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -77,6 +77,9 @@ class User(UserMixin, db.Model):
     posts = relationship(BlogPost, back_populates="author")
     comments = relationship(Comment, back_populates="author")
 
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def get_all_posts():
@@ -217,6 +220,4 @@ def delete_post(post_id):
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
