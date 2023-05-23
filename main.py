@@ -101,7 +101,7 @@ def register():
         salt_len = randint(16, 32)
         new_user.password = generate_password_hash(
             request.form['password'],
-            method='pbkdf2:sha3_512:100000',
+            method='sha512',
             salt_length=salt_len
         )
         new_user.name = request.form['name']
